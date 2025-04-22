@@ -65,16 +65,6 @@ def extract_error_code(content):
     match = re.search(r"ORA-\d{5}", content)
     return match.group(0) if match else None
 
-html = markdown_to_html(content)
-    save_post(html, error_code)
-    today = datetime.datetime.now().strftime("%Y-%m-%d")
-    filename = f"{POST_DIR}/{today}-{error_code.lower().replace('-', '')}.md"
-    with open(filename, "w", encoding="utf-8") as f:
-        f.write(content)
-
-
-import re
-
 def markdown_to_html(md):
     # ## 見出し
     md = re.sub(r'^###### (.+)', r'<h6>\1</h6>', md, flags=re.MULTILINE)
@@ -90,6 +80,16 @@ def markdown_to_html(md):
 
     # 太字やリンクは省略または後で追加可能
     return md
+
+html = markdown_to_html(content)
+save_post(html, error_code)
+today = datetime.datetime.now().strftime("%Y-%m-%d")
+filename = f"{POST_DIR}/{today}-{error_code.lower().replace('-', '')}.md"
+with open(filename, "w", encoding="utf-8") as f:
+    f.write(content)
+
+
+import re
 
 def markdown_to_html(md):
     import re
