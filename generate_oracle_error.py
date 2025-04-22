@@ -102,7 +102,7 @@ def generate_post():
     error_code = extract_error_code(content)
     if error_code and error_code not in used:
         html = markdown_to_html(content)
-    save_post(html, error_code)
+        save_post(html, error_code)
         used.append(error_code)
         save_used_errors(used)
     else:
