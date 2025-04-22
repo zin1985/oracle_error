@@ -65,11 +65,31 @@ def extract_error_code(content):
     match = re.search(r"ORA-\d{5}", content)
     return match.group(0) if match else None
 
-def save_post(content, error_code):
+def html = markdown_to_html(content)
+    save_post(html, error_code):
     today = datetime.datetime.now().strftime("%Y-%m-%d")
     filename = f"{POST_DIR}/{today}-{error_code.lower().replace('-', '')}.md"
     with open(filename, "w", encoding="utf-8") as f:
         f.write(content)
+
+
+import re
+
+def markdown_to_html(md):
+    # ## 見出し
+    md = re.sub(r'^###### (.+)', r'<h6>\1</h6>', md, flags=re.MULTILINE)
+    md = re.sub(r'^##### (.+)', r'<h5>\1</h5>', md, flags=re.MULTILINE)
+    md = re.sub(r'^#### (.+)', r'<h4>\1</h4>', md, flags=re.MULTILINE)
+    md = re.sub(r'^### (.+)', r'<h3>\1</h3>', md, flags=re.MULTILINE)
+    md = re.sub(r'^## (.+)', r'<h2>\1</h2>', md, flags=re.MULTILINE)
+    md = re.sub(r'^# (.+)', r'<h1>\1</h1>', md, flags=re.MULTILINE)
+
+    # コードブロック
+    md = re.sub(r'```sql\n(.*?)```', r'<pre><code class="sql">\1</code></pre>', md, flags=re.DOTALL)
+    md = re.sub(r'```(.*?)```', r'<pre><code>\1</code></pre>', md, flags=re.DOTALL)
+
+    # 太字やリンクは省略または後で追加可能
+    return md
 
 def generate_post():
     os.makedirs(POST_DIR, exist_ok=True)
@@ -81,7 +101,8 @@ def generate_post():
     content = get_next_error_article(api_key, used)
     error_code = extract_error_code(content)
     if error_code and error_code not in used:
-        save_post(content, error_code)
+        html = markdown_to_html(content)
+    save_post(html, error_code)
         used.append(error_code)
         save_used_errors(used)
     else:
