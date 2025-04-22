@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="{{ page.description | default: site.description }}">
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/style.css">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3910332370256182" crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3910332370256182"
+     crossorigin="anonymous"></script>
   {% seo %}
 </head>
 <body>
@@ -24,6 +25,17 @@
 
   <main class="site-content container">
     {{ content }}
+    <div class="adsense-bottom">
+      <ins class="adsbygoogle"
+          style="display:block; text-align:center;"
+          data-ad-client="ca-pub-3910332370256182"
+          data-ad-slot="9929907434"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+      <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
   </main>
 
   <footer class="site-footer">
