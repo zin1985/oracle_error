@@ -66,11 +66,11 @@ def extract_error_code(content):
     return match.group(0) if match else None
 
 html = markdown_to_html(content)
-save_post(html, error_code)
-today = datetime.datetime.now().strftime("%Y-%m-%d")
-filename = f"{POST_DIR}/{today}-{error_code.lower().replace('-', '')}.md"
-with open(filename, "w", encoding="utf-8") as f:
-    f.write(content)
+    save_post(html, error_code)
+    today = datetime.datetime.now().strftime("%Y-%m-%d")
+    filename = f"{POST_DIR}/{today}-{error_code.lower().replace('-', '')}.md"
+    with open(filename, "w", encoding="utf-8") as f:
+        f.write(content)
 
 
 import re
@@ -102,7 +102,7 @@ def generate_post():
     error_code = extract_error_code(content)
     if error_code and error_code not in used:
         html = markdown_to_html(content)
-        save_post(html, error_code)
+    save_post(html, error_code)
         used.append(error_code)
         save_used_errors(used)
     else:
