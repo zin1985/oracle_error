@@ -1,6 +1,8 @@
 ---
 layout: default
 title: ORACLE エラー解決ブログ
+pagination:
+  enabled: true
 ---
 
 <h1>☕ ORACLEエラー図解解説ブログ</h1>
