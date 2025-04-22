@@ -1,0 +1,12 @@
+title: "Oracle エラー解決ブログ"
+description: "実在する ORACLE エラー番号を1件ずつ解説し、根拠と解決策を図解で提示"
+baseurl: "/oracle_error"
+url: "https://zin1985.github.io"
+theme: minima
+plugins:
+  - jekyll-seo-tag
+  - jekyll-feed
+  - jekyll-paginate
+paginate: 10
+paginate_path: "/page:num"
+markdown: kramdown
