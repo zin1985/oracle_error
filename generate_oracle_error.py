@@ -66,7 +66,7 @@ def extract_error_code(content):
     return match.group(0) if match else None
 
 html = markdown_to_html(content)
-    save_post(html, error_code):
+    save_post(html, error_code)
     today = datetime.datetime.now().strftime("%Y-%m-%d")
     filename = f"{POST_DIR}/{today}-{error_code.lower().replace('-', '')}.md"
     with open(filename, "w", encoding="utf-8") as f:
