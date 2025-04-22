@@ -66,11 +66,11 @@ def extract_error_code(content):
     return match.group(0) if match else None
 
 html = markdown_to_html(content)
-save_post(html, error_code)
-today = datetime.datetime.now().strftime("%Y-%m-%d")
-filename = f"{POST_DIR}/{today}-{error_code.lower().replace('-', '')}.md"
-with open(filename, "w", encoding="utf-8") as f:
-    f.write(content)
+    save_post(html, error_code)
+    today = datetime.datetime.now().strftime("%Y-%m-%d")
+    filename = f"{POST_DIR}/{today}-{error_code.lower().replace('-', '')}.md"
+    with open(filename, "w", encoding="utf-8") as f:
+        f.write(content)
 
 
 import re
@@ -93,6 +93,18 @@ def markdown_to_html(md):
 
 def markdown_to_html(md):
     import re
+
+def markdown_to_html(md):
+    import re
+    md = re.sub(r'^###### (.+)', r'<h6>\\1</h6>', md, flags=re.MULTILINE)
+    md = re.sub(r'^##### (.+)', r'<h5>\\1</h5>', md, flags=re.MULTILINE)
+    md = re.sub(r'^#### (.+)', r'<h4>\\1</h4>', md, flags=re.MULTILINE)
+    md = re.sub(r'^### (.+)', r'<h3>\\1</h3>', md, flags=re.MULTILINE)
+    md = re.sub(r'^## (.+)', r'<h2>\\1</h2>', md, flags=re.MULTILINE)
+    md = re.sub(r'^# (.+)', r'<h1>\\1</h1>', md, flags=re.MULTILINE)
+    md = re.sub(r'```sql\\n(.*?)```', r'<pre><code class="sql">\\1</code></pre>', md, flags=re.DOTALL)
+    md = re.sub(r'```(.*?)```', r'<pre><code>\\1</code></pre>', md, flags=re.DOTALL)
+    return md
     md = re.sub(r'^###### (.+)', r'<h6>\\1</h6>', md, flags=re.MULTILINE)
     md = re.sub(r'^##### (.+)', r'<h5>\\1</h5>', md, flags=re.MULTILINE)
     md = re.sub(r'^#### (.+)', r'<h4>\\1</h4>', md, flags=re.MULTILINE)
@@ -114,7 +126,7 @@ def generate_post():
     error_code = extract_error_code(content)
     if error_code and error_code not in used:
         html = markdown_to_html(content)
-        save_post(html, error_code)
+    save_post(html, error_code)
         used.append(error_code)
         save_used_errors(used)
     else:
