@@ -1,0 +1,38 @@
+name: Generate Oracle Error Article
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run Generator Script
+        run: python3 generate_oracle_error.py
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
+      - name: Commit & push updates
+        run: |
+          git config --global user.email "bot@example.com"
+          git config --global user.name "GitHub Actions"
+          git add _posts/ used_oracle_errors.json
+          git commit -m "Add new Oracle error article" || echo "Nothing to commit"
+          git push
