@@ -1,14 +1,16 @@
 ---
 layout: default
 title: ORACLE エラー解決ブログ
+pagination:
+  enabled: true
 ---
 
 <h1>☕ ORACLEエラー図解解説ブログ</h1>
-<p>実在するOracleエラー番号に基づき、原因・解決策・再発防止策までを図表・コード付きでわかりやすく紹介します。</p>
+<p>実在するOracleエラー番号を1つずつ丁寧に解説。原因・解決法・再発防止をまとめた構成で、技術者の知見を深めます。</p>
 
 <div class="posts">
   {% for post in paginator.posts %}
-    <article style="margin-bottom: 2em; padding: 1em; border: 1px solid #ccc; border-radius: 10px;">
+    <article style="margin-bottom: 2em; padding: 1em; border: 1px solid #ddd; border-radius: 5px;">
       <h2><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h2>
       <p><small>{{ post.date | date: "%Y年%m月%d日" }}</small></p>
       <p>{{ post.description }}</p>
@@ -16,11 +18,11 @@ title: ORACLE エラー解決ブログ
   {% endfor %}
 </div>
 
-<div class="pagination">
+<div class="pagination" style="margin-top: 2em; text-align: center;">
   {% if paginator.previous_page %}
-    <a href="{{ paginator.previous_page_path }}" class="previous">← 前のページ</a>
+    <a href="{{ paginator.previous_page_path }}" style="margin-right: 1em;">← 前のページ</a>
   {% endif %}
   {% if paginator.next_page %}
-    <a href="{{ paginator.next_page_path }}" class="next">次のページ →</a>
+    <a href="{{ paginator.next_page_path }}">次のページ →</a>
   {% endif %}
 </div>
