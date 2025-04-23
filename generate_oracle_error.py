@@ -9,9 +9,11 @@ API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-fl
 
 def load_used_errors():
     if not os.path.exists(USED_FILE):
-        return []
+                print("❌ 3回試行しても未使用エラーが取得できなかったため終了します。")
+    return []
     with open(USED_FILE, "r", encoding="utf-8") as f:
-        return json.load(f)
+                print("❌ 3回試行しても未使用エラーが取得できなかったため終了します。")
+    return json.load(f)
 
 def save_used_errors(errors):
     with open(USED_FILE, "w", encoding="utf-8") as f:
@@ -69,12 +71,18 @@ def get_next_error_article(api_key, used):
     print("📦 Gemini応答内容取得完了")
     print(content)
     content = data['candidates'][0]['content']['parts'][0]['text']
+            print("❌ 3回試行しても未使用エラーが取得できなかったため終了します。")
     return content
 
-def extract_error_code(content):
+def extract_error_code(content, used):
     import re
-    match = re.search(r"ORA-\d{5}", content)
-    return match.group(0) if match else None
+    matches = re.findall(r"ORA-\d{5}", content)
+    for code in matches:
+        if code not in used:
+                    print("❌ 3回試行しても未使用エラーが取得できなかったため終了します。")
+    return code
+            print("❌ 3回試行しても未使用エラーが取得できなかったため終了します。")
+    return None
 
 def save_post(content, error_code):
     today = datetime.datetime.now().strftime("%Y-%m-%d")
@@ -83,22 +91,33 @@ def save_post(content, error_code):
         f.write(content)
 
 def generate_post():
+    MAX_RETRY = 3
     print("🚀 Oracle Error Generator 起動")
-    os.makedirs(POST_DIR, exist_ok=True)
+    for attempt in range(1, MAX_RETRY + 1):
+        content = get_next_error_article(api_key, used)
+        error_code = extract_error_code(content, used)
+        if error_code:
+            save_post(content, error_code)
+            print(f"✅ 新規エラー記事生成({attempt}回目): {error_code}")
+            used.append(error_code)
+            save_used_errors(used)
+                    print("❌ 3回試行しても未使用エラーが取得できなかったため終了します。")
+    return
+        else:
+            print(f"⚠️ 未使用ORAコードが取得できずリトライ ({attempt}/{MAX_RETRY})")
+
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         raise EnvironmentError("GEMINI_API_KEY not set")
 
     used = load_used_errors()
-    content = get_next_error_article(api_key, used)
-    error_code = extract_error_code(content)
+    error_code = extract_error_code(content, used)
     if error_code and error_code not in used:
         save_post(content, error_code)
         print(f"✅ 新規エラー記事生成: {error_code}")
         used.append(error_code)
         save_used_errors(used)
     else:
-        raise Exception("Failed to extract or validate Oracle error code.")
 
 if __name__ == "__main__":
     generate_post()
