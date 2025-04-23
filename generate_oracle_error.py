@@ -30,7 +30,7 @@ def get_next_error_article(api_key, used):
 3. 最初の1行に「# ORA-xxxxx - エラーの概要」として必ず明記してください
 
 # 条件
-- 以下のエラーコードは絶対に使用しないこと：（{', '.join(used[-20:]) if used else 'なし'}）は避ける
+- すでに使用したエラー番号（{', '.join(used[-20:]) if used else 'なし'}）は避ける
 - 架空のエラー番号は禁止
 - 各セクションは200字以上
 - 全体で3000字以上
@@ -94,6 +94,10 @@ def generate_post():
             continue
 
         error_code = extract_error_code(content)
+        if error_code:
+            print(f"🔍 抽出されたエラーコード: {error_code}")
+            print(f"📚 使用済みコード一覧（最新20件）: {used[-20:]}")
+
         if error_code and error_code not in used:
             save_post(content, error_code)
             used.append(error_code)
