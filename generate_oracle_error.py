@@ -63,6 +63,11 @@ def get_next_error_article(api_key, used):
     if res.status_code != 200:
         raise Exception(f"Gemini API error: {res.status_code} - {res.text}")
     data = res.json()
+    if "candidates" not in data or not data["candidates"]:
+        raise Exception("❌ Gemini API response missing 'candidates'")
+    content = data['candidates'][0]['content']['parts'][0]['text']
+    print("📦 Gemini応答内容取得完了")
+    print(content)
     content = data['candidates'][0]['content']['parts'][0]['text']
     return content
 
@@ -78,6 +83,7 @@ def save_post(content, error_code):
         f.write(content)
 
 def generate_post():
+    print("🚀 Oracle Error Generator 起動")
     os.makedirs(POST_DIR, exist_ok=True)
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
@@ -88,6 +94,7 @@ def generate_post():
     error_code = extract_error_code(content)
     if error_code and error_code not in used:
         save_post(content, error_code)
+        print(f"✅ 新規エラー記事生成: {error_code}")
         used.append(error_code)
         save_used_errors(used)
     else:
