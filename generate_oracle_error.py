@@ -85,7 +85,7 @@ def generate_post():
         raise EnvironmentError("GEMINI_API_KEY not set")
     used = load_used_errors()
 
-    MAX_RETRY = 3
+    MAX_RETRY = 30
     for attempt in range(1, MAX_RETRY + 1):
         content = get_next_error_article(api_key, used)
         error_code = extract_error_code(content, used)
