@@ -96,7 +96,7 @@ def generate_post():
             save_used_errors(used)
             return
         else:
-            print(f"⚠️ 未使用ORAコードが取得できずリトライ ({attempt}/{MAX_RETRY})")
+            print(f"⚠️ 未使用ORAコードが取得できずリトライ: {error_code} ({attempt}/{MAX_RETRY})")
     print("❌ 3回試行しても未使用エラーが取得できなかったため終了します。")
 
 if __name__ == "__main__":
