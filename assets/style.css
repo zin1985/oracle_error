@@ -62,8 +62,8 @@ h1, h2, h3 {
 }
 
 pre, code {
-  background: #2d2d2d;
-  color: #686862;
+  background: #686862;
+  color: #E8E8E2;
   padding: 0.1em;
   border-radius: 4px;
   font-family: monospace;
