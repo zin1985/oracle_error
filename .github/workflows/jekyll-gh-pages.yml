@@ -28,7 +28,7 @@ jobs:
           bundler-cache: true
 
       - name: Build with Jekyll
-　　　　  run: |
+        run: |
           gem install jekyll
           JEKYLL_ENV=production jekyll build --source ./ --destination ./_site
           
