@@ -30,6 +30,7 @@ jobs:
       - name: Build with Jekyll
         run: |
           gem install jekyll
+          gem install minima
           JEKYLL_ENV=production jekyll build --source ./ --destination ./_site
           
       - name: Upload artifact
