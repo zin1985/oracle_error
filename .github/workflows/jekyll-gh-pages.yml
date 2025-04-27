@@ -28,10 +28,10 @@ jobs:
           bundler-cache: true
 
       - name: Build with Jekyll
-        run: |
-          bundle install
-          JEKYLL_ENV=production bundle exec jekyll build --source ./ --destination ./_site
-
+　　　　  run: |
+          gem install jekyll
+          JEKYLL_ENV=production jekyll build --source ./ --destination ./_site
+          
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
 
